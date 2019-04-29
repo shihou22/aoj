@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.NoSuchElementException;
-import java.util.stream.IntStream;
 
 public class Main {
 
@@ -42,19 +41,27 @@ public class Main {
 	private void solveKnapsackProblem() {
 		int numN = nextInt();
 		int numW = nextInt();
-		int[] vA = IntStream.range(0, numN).map(i -> nextInt()).toArray();
-		int[] wA = IntStream.range(0, numN).map(i -> nextInt()).toArray();
+		int[] vA = new int[numN];
+		int[] wA = new int[numN];
+
+		for (int i = 0; i < numN; i++) {
+			vA[i] = nextInt();
+			wA[i] = nextInt();
+		}
 
 		/*
 		 * vAをbaseにして、wAを添える
 		 */
 		int[][] dp = new int[numN + 1][numW + 1];
 		for (int i = 0; i < numN; i++) {
-			/*
-			 * vAiが、選択可能なwを全て埋めていく
-			 */
 			for (int w = 0; w <= numW; w++) {
-				if (w > wA[i]) {
+				/*
+				 * vAiを選択した際のwを埋めていく
+				 * wがwA[i]より大きい場合 -> dp[i][w - wA[i]] + vA[i]　と
+				 *                           dp[i][w]　の比較
+				 *             小さい場合 -> vA[i]を選択することができない
+				 */
+				if (w >= wA[i]) {
 					dp[i + 1][w] = Integer.max(dp[i][w - wA[i]] + vA[i], dp[i][w]);
 				} else {
 					dp[i + 1][w] = dp[i][w];
