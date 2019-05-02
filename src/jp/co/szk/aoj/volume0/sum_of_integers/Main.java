@@ -1,10 +1,10 @@
-
-package jp.co.szk.aoj.dpl.dpl_1_b;
+package jp.co.szk.aoj.volume0.sum_of_integers;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
 
 public class Main {
 
@@ -14,15 +14,8 @@ public class Main {
 
 	private void solve() throws IOException {
 		try {
-			/*
-			 * Combinatorial - 0-1 Knapsack Problem
-			 */
-			solveKnapsackProblem();
-			//			 solveB();
-			//			 solveC();
-			//			 solveD();
-			//			 solveE();
-			//			 solveF();
+			//			solveProblem();
+			solveA();
 		} finally {
 			if (in != null) {
 				in.close();
@@ -35,72 +28,59 @@ public class Main {
 
 	}
 
-	/**
-	 * Knapsack DP Version
-	 */
-	private void solveKnapsackProblem() {
-		int numN = nextInt();
-		int numW = nextInt();
-		int[] vA = new int[numN];
-		int[] wA = new int[numN];
+	private void solveProblem() {
+		int n = nextInt();
+		int[] wk = IntStream.range(0, n).map(i -> nextInt()).toArray();
+		int a = nextInt();
 
-		for (int i = 0; i < numN; i++) {
-			vA[i] = nextInt();
-			wA[i] = nextInt();
-		}
+		boolean[][] dp = new boolean[n + 1][a + 1];
 
-		/*
-		 * vAをbaseにして、wAを添える
-		 */
-		int[][] dp = new int[numN + 1][numW + 1];
-		for (int i = 0; i < numN; i++) {
-			for (int w = 0; w <= numW; w++) {
-				/*
-				 * vAiを選択した際のwを埋めていく
-				 * wがwA[i]より大きい場合 -> dp[i][w - wA[i]] + vA[i]　と
-				 *                           dp[i][w]　の比較
-				 *             小さい場合 -> vA[i]を選択することができない
-				 */
-				if (w >= wA[i]) {
-					dp[i + 1][w] = Integer.max(dp[i][w - wA[i]] + vA[i], dp[i][w]);
+		dp[0][0] = true;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j <= a; j++) {
+				if (j >= wk[i]) {
+					dp[i + 1][j] = dp[i][j - wk[i]] || dp[i][j];
 				} else {
-					dp[i + 1][w] = dp[i][w];
+					dp[i + 1][j] = dp[i][j];
 				}
 
 			}
 		}
 
-		out.println(dp[numN][numW]);
+		out.println(dp[n][a]);
 	}
 
-	private void solveB() {
-		int numN = nextInt();
+	private void solveA() {
+		//		while (true) {
+		//		int n = nextInt();
+		//		int a = nextInt();
+		int n = 3;
+		int a = 6;
 
-		out.println("");
-	}
+		int[] iA = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-	private void solveC() {
-		int numN = nextInt();
+		if (n == 0 && a == 0) {
+			return;
+		}
 
-		out.println("");
-	}
+		int[][] dp = new int[n + 1][a + 1];
 
-	private void solveD() {
-		int numN = nextInt();
+		dp[0][0] = 1;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j <= a; j++) {
+				if (j >= i) {
+					//					if (j >= iA[i]) {
+					dp[i + 1][j] = dp[i][j] + dp[i][j - i];
+					//					dp[i + 1][j] = dp[i][j] + dp[i][j - iA[i]];
+				} else {
+					dp[i + 1][j] = dp[i][j];
+				}
+			}
+		}
 
-		out.println("");
-	}
-
-	private void solveE() {
-		int numN = nextInt();
-
-		out.println("");
-	}
-
-	private void solveF() {
-		int numN = nextInt();
-
-		out.println("");
+		out.println(dp[n][a]);
+		//		}
+		//		out.println("finish");
 	}
 
 	private final PrintWriter out = new PrintWriter(System.out);

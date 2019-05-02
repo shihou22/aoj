@@ -13,11 +13,6 @@ public class Main {
 	private void solve() throws IOException {
 		try {
 			solveA();
-			//			 solveB();
-			//			 solveC();
-			//			 solveD();
-			//			 solveE();
-			//			 solveF();
 		} finally {
 			if (in != null) {
 				in.close();
@@ -31,37 +26,7 @@ public class Main {
 	}
 
 	private void solveA() {
-		int numN = nextInt();
-
-		out.println("");
-	}
-
-	private void solveB() {
-		int numN = nextInt();
-
-		out.println("");
-	}
-
-	private void solveC() {
-		int numN = nextInt();
-
-		out.println("");
-	}
-
-	private void solveD() {
-		int numN = nextInt();
-
-		out.println("");
-	}
-
-	private void solveE() {
-		int numN = nextInt();
-
-		out.println("");
-	}
-
-	private void solveF() {
-		int numN = nextInt();
+		int n = nextInt();
 
 		out.println("");
 	}
