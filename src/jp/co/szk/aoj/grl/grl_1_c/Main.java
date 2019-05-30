@@ -1,3 +1,4 @@
+package jp.co.szk.aoj.grl.grl_1_c;
 
 import java.io.IOException;
 import java.io.InputStream;
